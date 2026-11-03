@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Design tokens. Values were chosen for hdh; only the light page tone (#fbfbfe)
+   was observed on the reference site (theme-color meta). */
+:root {
+  --bg: #fbfbfe;
+  --surface: #ffffff;
+  --surface-2: #f3f3f9;
+  --ink: #15142a;
+  --ink-2: #4a4966;
+  --ink-3: #75748f;
+  --line: #e4e4ef;
+  --brand: #4f46e5;
+  --brand-ink: #ffffff;
+  --brand-soft: #eeedfd;
+  --ok: #0f8a5f;
+  --ok-soft: #e6f6ef;
+  --warn: #b45309;
+  --warn-soft: #fdf3e3;
+  --bad: #c5283d;
+  --bad-soft: #fdecef;
+  --ring: #6d64f0;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f1a;
+    --surface: #17172a;
+    --surface-2: #1f1f35;
+    --ink: #f0f0fa;
+    --ink-2: #bdbcd6;
+    --ink-3: #8d8ca8;
+    --line: #2c2c46;
+    --brand: #8b84ff;
+    --brand-ink: #0f0f1a;
+    --brand-soft: #25234a;
+    --ok: #4fd1a1;
+    --ok-soft: #12302a;
+    --warn: #f5b357;
+    --warn-soft: #33260f;
+    --bad: #ff7b8c;
+    --bad-soft: #3a1820;
+    --ring: #a29dff;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+@utility card { @apply rounded-2xl border border-line bg-surface; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-55; }
+@utility btn-primary { @apply btn bg-brand text-brand-ink hover:opacity-90 active:opacity-80; }
+@utility btn-ghost { @apply btn border border-line bg-surface text-ink hover:bg-surface-2; }
+@utility btn-danger { @apply btn border border-bad/40 bg-bad-soft text-bad hover:opacity-90; }
+@utility btn-sm { @apply px-3 py-1.5 text-xs; }
+@utility input { @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25 disabled:opacity-60; }
+@utility label { @apply mb-1.5 block text-sm font-medium text-ink-2; }
+@utility eyebrow { @apply text-xs font-semibold uppercase tracking-[0.14em] text-brand; }
+@utility h2 { @apply text-2xl font-bold tracking-tight text-ink sm:text-3xl; }
+@utility muted { @apply text-ink-2; }
+@utility chip { @apply inline-flex items-center gap-1 rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-xs font-medium text-ink-2; }
+
+@layer components {
+  .prose-doc h2 { @apply mt-10 mb-3 text-xl font-bold text-ink; }
+  .prose-doc h3 { @apply mt-6 mb-2 text-base font-semibold text-ink; }
+  .prose-doc p, .prose-doc li { @apply text-[15px] leading-7 text-ink-2; }
+  .prose-doc ul { @apply ml-5 list-disc space-y-1; }
+  .prose-doc code { @apply rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[13px] text-ink; }
+  .prose-doc pre { @apply my-3 overflow-x-auto rounded-xl border border-line bg-surface-2 p-4 font-mono text-[13px] leading-6 text-ink; }
+  .prose-doc table { @apply my-3 w-full border-collapse text-sm; }
+  .prose-doc th { @apply border-b border-line px-2 py-2 text-left font-semibold text-ink; }
+  .prose-doc td { @apply border-b border-line px-2 py-2 align-top text-ink-2; }
+  .prose-doc a { @apply font-medium text-brand underline underline-offset-2; }
+}
+
+@keyframes pop-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.animate-pop { animation: pop-in 0.22s ease-out both; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 9999px; animation: spin 0.7s linear infinite; }
