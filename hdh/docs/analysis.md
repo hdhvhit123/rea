@@ -53,7 +53,29 @@ Legend used below: **[O]** observed in fetched text · **[D]** documented by the
 
 ## Not reached / out of scope
 
-- Visual details of every page (blocked network).
 - Logged-in areas of the reference (no account was created there; creating data on the reference requires the owner's permission).
 - `/d/demo` and `/page` pages (robots.txt).
 - The lnk.ink migration section is brand history of the reference and has no equivalent for hdh, so it was intentionally not rebuilt.
+
+## Visual survey (2026-11-03, second session)
+
+Access: `https://bito.li/` answered 200 from the new environment. Read-only: only public pages were opened; nothing was submitted, no account or link was created. `robots.txt` disallows `/d/`, `/page`, `/dashboard`, `/settings`, `/api/` and those were not opened.
+
+Method: Playwright (Chromium) full-page screenshots of `/`, `/register`, `/login`, `/docs`, `/docs/guide`, `/docs/api` at 360×800, 768×1024 and 1440×900 (light scheme, reduced motion), plus `getComputedStyle` on key elements and the stylesheet's `:root` tokens. The same captures were taken of the local build. REA's `compare-web-screenshots` could not be used here: running `npx rea-agents` was refused by this session's command policy, so comparison was done by side-by-side images and a property-by-property measurement table (`evidence/visual/measurements.json`). Dynamic regions (live "links shortened" counter, example chart data, language/theme controls) were excluded from comparison.
+
+Observed design [O]:
+
+| Token | Reference value |
+|---|---|
+| Font | Inter (UI), JetBrains Mono (code/aliases); body 16/24, letter-spacing −0.006em |
+| Colours | bg `oklch(98.8% .0025 280)`, ink `oklch(20% .012 280)`, ink-2 `oklch(37% …)`, muted `oklch(52% …)`, line `oklch(91.8% .005 280)`, brand `oklch(53% .235 279)`, accent `oklch(74% .14 215)` (headline gradient brand→accent) |
+| Radii | 6 / 8 / 10 / 14 / 18 / 24 px |
+| Shadows | card, lift, brand (three-layer, indigo-tinted) |
+| Header | 64 px, transparent over hero on home, sticky with border on other pages; dark "Sign up" button 36 px |
+| Hero | centred, h1 46.4 px / 600 / −0.035em (30.4 px on mobile); form card 768 px, radius 18, input and button 56 px radius 14 |
+| Sections | eyebrow 12 px / 600 / 0.12em; h2 41.6 px / 600 (30 px mobile); container 1120 px |
+| Layout | browser-frame stats preview; 4-cell trust strip; 3-step "How it works" with numbered circles; bento feature grid; Guest/Free table with highlighted column; FAQ in two columns; dark indigo CTA; four-column footer |
+| Docs | grid-pattern hero with eyebrow, tabs (Overview / API reference / User guide), left "on this page" list |
+| Auth | form on the left, tall gradient promo panel on the right |
+
+Result of the comparison on the home page (hdh vs reference): font, all listed colours, h1/h2/eyebrow metrics, input and button sizes and radii, header button sizes are equal at all three sizes; page height 6219 vs 6176 px at 1440, 8255 vs 8128 at 768, 10740 vs 9920 at 360 (hdh texts are longer). No horizontal overflow on any captured page. Reference screenshots and side-by-side images are kept in the project files folder (`hdh-visual/`), not in the repository, because they contain the reference's branding.

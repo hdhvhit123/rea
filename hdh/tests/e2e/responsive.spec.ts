@@ -35,13 +35,13 @@ for (const vp of VIEWPORTS) {
         await page.getByRole("button", { name: "Open menu" }).click();
         await page.getByRole("navigation", { name: "Mobile" }).getByRole("link", { name: "Docs" }).click();
       } else {
-        await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Docs" }).click();
+        await page.getByRole("banner").getByRole("link", { name: "Docs", exact: true }).click();
       }
       await expect(page).toHaveURL(/\/docs$/);
       await page.goBack();
       await expect(page).toHaveURL(/\/$/);
       await page.goForward();
-      await expect(page.getByRole("heading", { name: "Documentation" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "Build with hdh" })).toBeVisible();
     });
 
     test("options panel and result fit", async ({ page }) => {

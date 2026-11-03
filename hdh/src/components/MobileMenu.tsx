@@ -14,7 +14,7 @@ export function MobileMenu({ nav, signedIn }: { nav: { href: string; label: stri
   }, [open]);
   return (
     <div className="md:hidden">
-      <button type="button" className="btn-ghost px-2.5" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((v) => !v)}>
+      <button type="button" className="btn-quiet h-9 px-2" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((v) => !v)}>
         {open ? <XIcon /> : <MenuIcon />}
       </button>
       {open && (
@@ -27,11 +27,11 @@ export function MobileMenu({ nav, signedIn }: { nav: { href: string; label: stri
             ))}
             <div className="mt-2 flex gap-2 border-t border-line pt-3">
               {signedIn ? (
-                <Link href="/dashboard" className="btn-primary flex-1" onClick={() => setOpen(false)}>Dashboard</Link>
+                <Link href="/dashboard" className="btn-dark flex-1" onClick={() => setOpen(false)}>Dashboard</Link>
               ) : (
                 <>
                   <Link href="/login" className="btn-ghost flex-1" onClick={() => setOpen(false)}>Log in</Link>
-                  <Link href="/register" className="btn-primary flex-1" onClick={() => setOpen(false)}>Sign up free</Link>
+                  <Link href="/register" className="btn-dark flex-1" onClick={() => setOpen(false)}>Sign up</Link>
                 </>
               )}
             </div>

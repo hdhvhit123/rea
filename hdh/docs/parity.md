@@ -1,11 +1,11 @@
 # Parity table
 
-Evidence: **T** = reference text fetched on 2026-11-03 (see `analysis.md`); **D** = reference docs (guide/API) text. No visual evidence of the reference exists yet, so **visual parity is unverified for every row**.
-Tests: `U` = `tests/unit/*.test.ts`, `E` = `tests/e2e/flows.spec.ts`, `R` = `tests/e2e/responsive.spec.ts`. All listed tests passed on 2026-11-03 (33 unit, 38 e2e).
+Evidence: **T** = reference text fetched on 2026-11-03 (see `analysis.md`); **D** = reference docs (guide/API) text. **V** = visual survey of the reference on 2026-11-03 (Playwright screenshots at 360/768/1440 and computed-style measurements of public pages; see `analysis.md` → Visual survey and `evidence/visual/`). Visual rows were checked for the public pages listed there; logged-in pages of the reference were not seen.
+Tests: `U` = `tests/unit/*.test.ts`, `E` = `tests/e2e/flows.spec.ts`, `R` = `tests/e2e/responsive.spec.ts`. All listed tests passed on 2026-11-03 after the visual pass (33 unit, 38 e2e).
 
 | ID | Feature | Evidence | Implementation | Tests | Status | Missing |
 |---|---|---|---|---|---|---|
-| F01 | Shorten form, scheme optional, "/" shortcut | T home | `components/ShortenForm.tsx`, `POST /api/links` | U normalizeUrl; E guest flow, validation | Done | Visual match |
+| F01 | Shorten form, scheme optional, "/" shortcut | T home, V | `components/ShortenForm.tsx`, `POST /api/links` | U normalizeUrl; E guest flow, validation | Done | — |
 | F02 | Options: alias, expiry (min/h/d/clicks), password, privacy mode | T home, D guide | `ShortenForm`, `lib/validation.ts` | U alias/expiry/password; E guest flow | Done | — |
 | F03 | Alias rules + reserved + conflicts | D guide/API | `validateCustomCode`, `createLink` | U table of cases; E duplicate alias | Done | — |
 | F04 | Reuse identical link (200, no secret) | D API | `createLink` dedupe | U create | Done | — |
@@ -35,7 +35,7 @@ Tests: `U` = `tests/unit/*.test.ts`, `E` = `tests/e2e/flows.spec.ts`, `R` = `tes
 | F28 | Rate limits 120/10 min, 300/day (2,000 for 7-day accounts), 30 failed creds/15 min, Retry-After | D API | `lib/ratelimit.ts`, `http.ts` | U burst + lockout | Done (in-memory) | Multi-instance store |
 | F29 | Docs: index, guide, API reference | T links | `app/docs/**` | R docs pages | Done (own text) | — |
 | F30 | Terms, Privacy, Report abuse | T footer | `app/terms`, `app/privacy`, `app/abuse`, `/api/abuse` | E abuse form | Done (placeholder legal text) | Legal review |
-| F31 | Header nav (Features, How it works, Check a link, Docs, language), mobile menu | T home | `SiteHeader`, `MobileMenu` | R navigation ×3 | Done | Language switching (only EN observed) |
-| F32 | Home sections: hero, preview, trust, how, demo CTA, features, account + table, check, FAQ, CTA, footer | T home | `app/page.tsx` | R home ×3 | Done | lnk.ink migration note intentionally omitted |
-| F33 | Responsive 360 / 768 / 1440, no horizontal overflow | brief | all pages | R (24 checks) | Done for the build | Comparison with reference |
-| F34 | Visual parity with reference (layout, fonts, colours, spacing) | — | — | — | **Blocked** | bito.li was unreachable from this session |
+| F31 | Header nav (Features, How it works, Check a link, Docs, language), mobile menu | T home, V | `SiteHeader`, `MobileMenu` | R navigation ×3 | Done | Language switching and dark-mode toggle (reference has both; hdh shows EN only and follows the system theme) |
+| F32 | Home sections: hero, preview, trust, how, demo CTA, features, account + table, check, FAQ, CTA, footer | T home, V | `app/page.tsx` | R home ×3 | Done | lnk.ink migration card replaced by an hdh "Know where you land" card |
+| F33 | Responsive 360 / 768 / 1440, no horizontal overflow | brief | all pages | R (24 checks) | Done | — (compared with the reference at all three sizes) |
+| F34 | Visual parity with reference (layout, fonts, colours, spacing) | V (home, register, login, docs, guide, API at 360/768/1440) | `app/globals.css` tokens; `SiteHeader`, `SiteFooter`, `ShortenForm`, `app/page.tsx`, `AuthLayout`, `DocPage` | R ×24 overflow; measurement script (`evidence/visual/measurements.json`) | **Done for public pages** | Measured equal on home: font (Inter), colours, h1/h2 size/weight/tracking, eyebrow, input and Shorten button size/radius, header buttons. Remaining differences: page height at 360 (+8%, hdh copy is longer), dashboard/stats/bio pages not compared (reference needs login or is disallowed by robots.txt), no dark-mode toggle, no Google/GitHub buttons on auth pages unless OAuth is configured |

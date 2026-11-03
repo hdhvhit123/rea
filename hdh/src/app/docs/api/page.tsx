@@ -45,11 +45,13 @@ const ERRORS: [number, string, string][] = [
   [500, "server.error", "Unexpected error"],
 ];
 
+const TOC: [string, string][] = [["basics", "Basics"], ["create-a-link", "Create a link"], ["create-via-get", "Create via GET"], ["statistics", "Statistics"], ["preview", "Preview"], ["update", "Update"], ["delete", "Delete"], ["qr-code", "QR code"], ["total-links", "Total links"], ["rate-limits", "Rate limits"], ["error-keys", "Error keys"]];
+
 export default function ApiDocs() {
   const b = `${baseUrl()}/api`;
   return (
-    <DocPage title="API reference" lead="A small JSON API for creating and managing short links." current="/docs/api">
-      <h2>Basics</h2>
+    <DocPage title="API reference" lead="A small JSON API for creating and managing short links." current="/docs/api" toc={TOC}>
+      <h2 id="basics">Basics</h2>
       <ul>
         <li>Base URL: <code>{b}</code></li>
         <li>Send JSON with <code>Content-Type: application/json</code>. Invalid JSON is treated as an empty body.</li>
@@ -58,7 +60,7 @@ export default function ApiDocs() {
         <li>Errors look like <code>{`{ "error": "…", "errorKey": "…" }`}</code>. Branch on <code>errorKey</code>, not on the message.</li>
       </ul>
 
-      <h2>Create a link</h2>
+      <h2 id="create-a-link">Create a link</h2>
       <pre>{`POST /api/links
 {
   "originalUrl": "example.com/very/long/page",
@@ -74,39 +76,39 @@ export default function ApiDocs() {
       <pre>{`curl -s -X POST ${b}/links -H 'content-type: application/json' \\
   -d '{"originalUrl":"https://example.com"}'`}</pre>
 
-      <h2>Create via GET</h2>
+      <h2 id="create-via-get">Create via GET</h2>
       <pre>{`GET /api/links/create?url=<encoded>&custom=<alias>&format=simple`}</pre>
       <p>Always creates <code>controlMode: &quot;none&quot;</code> links. With <code>format=simple</code> the short URL is returned as plain text.</p>
 
-      <h2>Statistics</h2>
+      <h2 id="statistics">Statistics</h2>
       <pre>{`GET /api/links/{code}/stats?secret=…&password=…&mode=redirect`}</pre>
       <p>
         Full links need <code>secret</code> (or the owner&apos;s session). Password-protected Stats only links need <code>password</code>. With{" "}
         <code>mode=redirect</code> only <code>{`{ "originalUrl" }`}</code> is returned. Expired links return <code>410</code> unless the secret or owner is supplied.
       </p>
 
-      <h2>Preview</h2>
+      <h2 id="preview">Preview</h2>
       <pre>{`GET /api/links/{code}/preview?reveal=1`}</pre>
       <p>Shows the destination without counting a click. <code>reveal=1</code> adds <code>originalUrl</code> to the <code>403</code> body of a blocked link — never auto-redirect to it.</p>
 
-      <h2>Update</h2>
+      <h2 id="update">Update</h2>
       <pre>{`PATCH /api/links/{code}
 { "secretCode": "…", "originalUrl": "…", "title": "…", "password": null,
   "expireMode": "never" | "minutes" | "hours" | "days" | "clicks", "expireAfter": 3 }`}</pre>
       <p>Full links only. Only fields you send change. A new time expiry must end later than the current one and clears the click limit; a new click limit clears the time limit and must be above the current clicks.</p>
 
-      <h2>Delete</h2>
+      <h2 id="delete">Delete</h2>
       <pre>{`POST /api/links/{code}/delete
 { "secretCode": "…" }`}</pre>
       <p>The code stays reserved. Account links can be restored from Trash for 30 days; guest links can&apos;t.</p>
 
-      <h2>QR code</h2>
+      <h2 id="qr-code">QR code</h2>
       <pre>{`GET /api/links/{code}/qr?format=png|svg&size=512&download=1`}</pre>
 
-      <h2>Total links</h2>
+      <h2 id="total-links">Total links</h2>
       <pre>{`GET /api/links/stats/total  →  { "total": 1234 }`}</pre>
 
-      <h2>Rate limits</h2>
+      <h2 id="rate-limits">Rate limits</h2>
       <ul>
         <li>Creation: 120 requests per rolling 10 minutes per IP (failed validation counts).</li>
         <li>Daily: 300 new links per IP per UTC day; accounts at least 7 days old get 2,000.</li>
@@ -114,7 +116,7 @@ export default function ApiDocs() {
         <li>Every <code>429</code> carries a <code>Retry-After</code> header and a <code>retryAfter</code> field.</li>
       </ul>
 
-      <h2>Error keys</h2>
+      <h2 id="error-keys">Error keys</h2>
       <div className="overflow-x-auto">
         <table>
           <thead><tr><th>Status</th><th>errorKey</th><th>Meaning</th></tr></thead>
