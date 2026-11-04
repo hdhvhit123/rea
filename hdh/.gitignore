@@ -3,7 +3,9 @@ node_modules/
 data/
 *.tsbuildinfo
 next-env.d.ts
-test-results/
+/test-results/
 playwright-report/
 .env
 .env.local
+# keep e2e evidence (root .gitignore ignores build/)
+!evidence/build/
