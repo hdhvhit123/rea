@@ -25,13 +25,23 @@ export const ChevronIcon = (p: P) => (<svg {...base(p)}><path d="m6 9 6 6 6-6" /
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 font-extrabold tracking-tight ${className}`}>
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-ink">
+    <span className={`inline-flex items-center gap-2 font-semibold tracking-[-0.03em] ${className}`}>
+      <span className="grid h-8 w-8 place-items-center rounded-[9px] bg-[linear-gradient(140deg,var(--brand),oklch(60%_0.2_290))] text-white shadow-brand">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-hidden>
           <path d="M6 5v14M6 12h6M12 9v10M18 5v14" />
         </svg>
       </span>
-      <span className="text-lg">hdh</span>
+      <span className="text-[21px] leading-none">hdh</span>
     </span>
   );
 }
+export const ArrowIcon = (p: P) => (<svg {...base(p)}><path d="M5 12h14M13 6l6 6-6 6" /></svg>);
+export const SlidersIcon = (p: P) => (<svg {...base(p)}><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" /></svg>);
+export const CloudIcon = (p: P) => (<svg {...base(p)}><path d="M17.5 19H8a6 6 0 1 1 5.7-7.9A4.5 4.5 0 1 1 17.5 19z" /></svg>);
+export const GridIcon = (p: P) => (<svg {...base(p)}><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>);
+export const KeyIcon = (p: P) => (<svg {...base(p)}><circle cx="7.5" cy="15.5" r="4.5" /><path d="m10.7 12.3 9.3-9.3M16 7l3 3M19 4l2 2" /></svg>);
+export const SparkIcon = (p: P) => (<svg {...base(p)}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6" /></svg>);
+export const PhoneIcon = (p: P) => (<svg {...base(p)}><rect x="6" y="2" width="12" height="20" rx="2" /><path d="M11 18h2" /></svg>);
+export const MonitorIcon = (p: P) => (<svg {...base(p)}><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg>);
+export const CardIcon = (p: P) => (<svg {...base(p)}><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="9" cy="10" r="2" /><path d="M14 9h4M14 13h4M6 16h12" /></svg>);
+export const BookIcon = (p: P) => (<svg {...base(p)}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01" /></svg>);

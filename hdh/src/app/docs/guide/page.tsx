@@ -4,9 +4,11 @@ import { DocPage } from "@/components/DocPage";
 
 export const metadata: Metadata = { title: "User guide" };
 
+const TOC: [string, string][] = [["create", "Creating a short link"], ["alias", "Custom aliases"], ["password", "Passwords"], ["expiry", "Expiry and click limits"], ["modes", "Privacy modes"], ["secret", "Secret codes"], ["stats", "Statistics"], ["qr", "QR codes"], ["bio", "Bio page"], ["account", "Account and dashboard"], ["import", "Import and export"], ["safety", "Safety"]];
+
 export default function Guide() {
   return (
-    <DocPage title="User guide" lead="How each feature works and the rules behind it." current="/docs/guide">
+    <DocPage title="User guide" lead="How each feature works and the rules behind it." current="/docs/guide" toc={TOC}>
       <h2 id="create">Creating a short link</h2>
       <ul>
         <li>Paste a long address on the home page. You can leave out <code>https://</code>.</li>

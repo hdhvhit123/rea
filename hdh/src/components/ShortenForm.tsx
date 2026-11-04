@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { addRecent, api, ClientApiError, displayUrl } from "@/lib/client";
-import { ChartIcon, ChevronIcon, ExternalIcon, LockIcon, QrIcon } from "./icons";
+import { ArrowIcon, ChartIcon, ChevronIcon, ClockIcon, ExternalIcon, LinkIcon, LockIcon, QrIcon, SlidersIcon, TagIcon } from "./icons";
 import { CopyButton } from "./CopyButton";
 import { QrModal } from "./QrModal";
 
@@ -102,12 +102,14 @@ export function ShortenForm({ compact = false, signedIn = false, onCreated }: { 
 
   const errId = `${id}-err`;
   return (
-    <div className={compact ? "" : "card p-4 shadow-[0_20px_60px_-30px_rgba(79,70,229,0.45)] sm:p-5"}>
+    <>
+    <div className={compact ? "" : "rounded-xl border border-line bg-surface p-2 shadow-lift"}>
       {!result ? (
         <form onSubmit={submit} noValidate aria-label="Shorten a link">
           <label htmlFor={`${id}-url`} className="sr-only">Long URL</label>
           <div className="flex flex-col gap-2 sm:flex-row">
             <div className="relative flex-1">
+              {!compact && <LinkIcon width={20} height={20} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-3" />}
               <input
                 ref={inputRef}
                 id={`${id}-url`}
@@ -116,8 +118,8 @@ export function ShortenForm({ compact = false, signedIn = false, onCreated }: { 
                 inputMode="url"
                 autoComplete="url"
                 spellCheck={false}
-                placeholder="Paste a long link, e.g. example.com/very/long/page"
-                className="input h-12 pr-10 text-base"
+                placeholder={compact ? "Paste a long link, e.g. example.com/very/long/page" : "Paste a long link…"}
+                className={compact ? "input h-12 pr-10 text-base" : "input h-14 rounded-lg border-brand-line pl-12 pr-11 text-base focus:border-brand sm:text-[17px]"}
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 aria-invalid={error?.field === "url"}
@@ -125,29 +127,39 @@ export function ShortenForm({ compact = false, signedIn = false, onCreated }: { 
                 maxLength={2048}
               />
               {!compact && (
-                <kbd className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded border border-line bg-surface-2 px-1.5 text-xs text-ink-3 sm:block">/</kbd>
+                <kbd className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-[5px] border border-line-strong bg-surface px-1.5 font-mono text-[11px] leading-[18px] text-ink-3 sm:block">/</kbd>
               )}
             </div>
-            <button type="submit" className="btn-primary h-12 px-6 text-base" disabled={busy}>
+            <button type="submit" className={compact ? "btn-primary h-12 px-6 text-base" : "btn-primary h-14 rounded-lg px-6 text-base sm:w-40"} disabled={busy}>
               {busy ? <span className="spinner" aria-hidden /> : null}
               {busy ? "Shortening…" : "Shorten"}
+              {!busy && !compact && <ArrowIcon width={16} height={16} />}
             </button>
           </div>
 
-          <button
-            type="button"
-            className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-ink-2 hover:text-ink"
-            aria-expanded={open}
-            aria-controls={`${id}-opts`}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <ChevronIcon width={16} height={16} className={`transition-transform ${open ? "rotate-180" : ""}`} />
-            Options
-            <span className="text-ink-3">· alias, expiry, password, privacy</span>
-          </button>
+          <div className={compact ? "" : "flex items-center justify-between gap-3 px-1 pt-1.5"}>
+            <button
+              type="button"
+              className={compact ? "mt-3 inline-flex items-center gap-1 text-sm font-medium text-ink-2 hover:text-ink" : "btn-quiet h-9 gap-1.5 px-3 text-sm text-ink-3"}
+              aria-expanded={open}
+              aria-controls={`${id}-opts`}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {!compact && <SlidersIcon width={16} height={16} />}
+              Options
+              <ChevronIcon width={16} height={16} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+            </button>
+            {!compact && (
+              <p aria-hidden className="hidden items-center gap-3 pr-2 text-[13px] text-ink-3 sm:flex">
+                <span className="inline-flex items-center gap-1"><TagIcon width={14} height={14} />Custom alias</span>
+                <span className="inline-flex items-center gap-1"><ClockIcon width={14} height={14} />Expires</span>
+                <span className="inline-flex items-center gap-1"><LockIcon width={14} height={14} />Password</span>
+              </p>
+            )}
+          </div>
 
           {open && (
-            <div id={`${id}-opts`} className="animate-pop mt-3 grid gap-4 rounded-xl border border-line bg-surface-2 p-4 sm:grid-cols-2">
+            <div id={`${id}-opts`} className={`animate-pop grid gap-4 rounded-lg border border-line bg-surface-2 p-4 text-left sm:grid-cols-2 ${compact ? "mt-3" : "m-1 mt-2"}`}>
               <div>
                 <label className="label" htmlFor={`${id}-alias`}>Custom alias</label>
                 <div className="flex items-center overflow-hidden rounded-xl border border-line bg-surface focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/25">
@@ -226,19 +238,13 @@ export function ShortenForm({ compact = false, signedIn = false, onCreated }: { 
           )}
 
           {error && (
-            <p id={errId} role="alert" className="mt-3 rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">
+            <p id={errId} role="alert" className={`rounded-md bg-bad-soft px-3 py-2 text-left text-sm text-bad ${compact ? "mt-3" : "m-1 mt-2"}`}>
               {error.msg}
-            </p>
-          )}
-          {!compact && !signedIn && (
-            <p className="mt-3 text-xs text-ink-3">
-              Press <kbd className="rounded border border-line bg-surface-2 px-1">/</kbd> to start typing. By shortening you agree to the{" "}
-              <Link href="/terms" className="underline">Terms</Link>.
             </p>
           )}
         </form>
       ) : (
-        <div className="animate-pop" aria-live="polite">
+        <div className={`animate-pop text-left ${compact ? "" : "p-3"}`} aria-live="polite">
           <p className="text-sm font-medium text-ok">{reused ? "You already shortened this link — here it is again." : "Your short link is ready"}</p>
           <div className="mt-2 flex flex-col gap-3 rounded-xl border border-line bg-surface-2 p-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
@@ -272,5 +278,17 @@ export function ShortenForm({ compact = false, signedIn = false, onCreated }: { 
         </div>
       )}
     </div>
+    {!compact && (
+      <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-ink-3">
+        <span>Press <kbd className="mx-0.5 rounded-[5px] border border-line-strong bg-surface px-1.5 font-mono text-[11px]">/</kbd> to start typing</span>
+        {!signedIn && (
+          <>
+            <span aria-hidden className="h-3.5 w-px bg-line-strong" />
+            <span>By shortening you agree to the <Link href="/terms" className="underline underline-offset-2 hover:text-ink">Terms</Link></span>
+          </>
+        )}
+      </p>
+    )}
+    </>
   );
 }

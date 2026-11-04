@@ -46,7 +46,9 @@ npm run build
 npm run test:e2e    # Playwright; starts `next start` on :3200 with a throwaway DB (build first)
 ```
 
-E2E screenshots go to `evidence/build/`, results to `evidence/test-results/e2e.json`.
+E2E screenshots go to `evidence/build/`, results to `evidence/test-results/e2e.json`. Visual-parity captures of the build and the measurement table versus the reference are in `evidence/visual/`.
+
+Fonts: Inter and JetBrains Mono are self-hosted from `@fontsource-variable/*` (SIL Open Font License), so no external font requests are made.
 
 ## Try the main flows
 

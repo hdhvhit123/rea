@@ -25,7 +25,7 @@ export function CheckLinkForm() {
   return (
     <form
       noValidate
-      className="mt-6 flex flex-col gap-2 sm:flex-row"
+      className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-start"
       onSubmit={(e) => {
         e.preventDefault();
         const code = parseShortInput(value, window.location.host);
@@ -41,8 +41,8 @@ export function CheckLinkForm() {
         <label htmlFor={`${id}-c`} className="sr-only">Short link or code</label>
         <input
           id={`${id}-c`}
-          className="input h-12"
-          placeholder="Short link or code, e.g. my-launch"
+          className="input h-11 font-mono text-sm"
+          placeholder="hdh/abc123 or abc123"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           aria-invalid={Boolean(error)}
@@ -50,7 +50,7 @@ export function CheckLinkForm() {
         />
         {error && <p id={`${id}-e`} role="alert" className="mt-1.5 text-sm text-bad">{error}</p>}
       </div>
-      <button className="btn-primary h-12 px-6" type="submit">Check link</button>
+      <button className="btn-dark h-11 px-5" type="submit">Check link</button>
     </form>
   );
 }
